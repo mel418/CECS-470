@@ -35,6 +35,37 @@ document.addEventListener("DOMContentLoaded", function () {
         const largeImage = document.createElement("img");
         largeImage.src = "images/large/" + painting.id + ".jpg";
         figure.appendChild(largeImage);
+
+        // add feature rectangles
+        displayFeatures(painting.features);
+    }
+
+    // function to display all features
+    function displayFeatures(features) {
+        for (let feature of features) {
+            displaySingleFeatureRectangle(feature);
+        }
+    }
+
+    // function to display one rectangle
+    function displaySingleFeatureRectangle(feature) {
+        const rect = document.createElement("div");
+        rect.className = "box" // css class for styling
+        rect.style.position = "absolute"; // position over the image
+        rect.style.left = feature.upperLeft[0] + "px"; // x position
+        rect.style.top = feature.upperLeft[1] + "px"; // y position
+        rect.style.width = (feature.lowerRight[0] - feature.upperLeft[0]) + "px"; // width
+        rect.style.height = (feature.lowerRight[1] - feature.upperLeft[1]) + "px"; // height
+
+        // add hover events
+        rect.addEventListener("mouseover", function () {
+            description.textContent = feature.description;
+        });
+        rect.addEventListener("mouseout", function () {
+            description.textContent = "";
+        });
+
+        figure.appendChild(rect); // add rectangle to figure
     }
 
     // listen for clicks on the thumbnail list
